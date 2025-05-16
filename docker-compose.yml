@@ -1,0 +1,39 @@
+
+services:
+  api:
+    build: .
+    container_name: productapi
+    ports:
+      - "8000:8000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    container_name: productdb
+    environment:
+      - POSTGRES_USER=productuser
+      - POSTGRES_PASSWORD=productpass
+      - POSTGRES_DB=productdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+  
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.5.1
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+
+
+volumes:
+  db_data:
+  es_data:
