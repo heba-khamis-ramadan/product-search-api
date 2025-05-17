@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <title>Product Search</title>
   <style>
-    /* Reset and base styles */
     * {
       box-sizing: border-box;
     }
@@ -12,7 +11,7 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
       padding: 20px;
-      background: #f9f9f9;
+      background: linear-gradient(to right, #EEAECA, #94BBE9);
       color: #333;
       display: flex;
       justify-content: center;
@@ -92,7 +91,7 @@
       margin-top: 6px;
       font-size: 14px;
       color: #555;
-      line-height: 1.4;
+      line-height: 1.5;
     }
     .pagination {
       display: flex;
@@ -116,7 +115,7 @@
 <body>
 
   <div class="container">
-    <h1>Search Products</h1>
+    <h1>Search Products API</h1>
     <div class="search-bar">
       <input id="searchInput" type="text" placeholder="Search for products..." />
       <button id="searchBtn" onclick="searchProducts()" disabled>Search</button>
@@ -141,7 +140,6 @@
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
 
-    // Enable/disable search button based on input
     searchInput.addEventListener('input', () => {
       searchBtn.disabled = searchInput.value.trim() === '';
     });
@@ -172,19 +170,18 @@
                 Category: ${product.category} <br/>
                 Price: $${product.price.toFixed(2)} <br/>
                 Stock: ${product.stock} <br/>
-                Description: ${product.description}
+                Description: ${product.description} <br/>
+                Nutrition Facts: ${product.nutrition_facts || 'N/A'}
               </div>
             `;
             resultsEl.appendChild(li);
           });
 
-          // Handle pagination buttons
           lastPage = data.total_pages || Math.ceil(data.count / (data.page_size || 10)) || 1;
           pagination.style.display = lastPage > 1 ? 'flex' : 'none';
 
           prevBtn.disabled = currentPage <= 1;
           nextBtn.disabled = currentPage >= lastPage;
-
         } else {
           resultsEl.innerHTML = '<p class="no-results">No products found.</p>';
           pagination.style.display = 'none';
@@ -205,4 +202,3 @@
 
 </body>
 </html>
-
