@@ -1,8 +1,9 @@
-Django>=4.2
-djangorestframework
-psycopg2-binary
-elasticsearch>=8.5.1
-django-elasticsearch-dsl
-django-elasticsearch-dsl-drf
-elasticsearch-dsl
+Django>=4.2,<5.0
+djangorestframework==3.14.0
+psycopg2-binary==2.9.9
+requests
+elasticsearch==7.10.0
+elasticsearch-dsl==7.4.1
+django-elasticsearch-dsl==7.2.2
+django-elasticsearch-dsl-drf==0.22.5
 python-dotenv

@@ -1,8 +1,11 @@
 # Use official Python image as base
-FROM python:3.11-slim
+FROM python:3.8-slim
 
 # Set working directory
 WORKDIR /app
+
+# Install netcat (nc) for wait_for_db.sh script
+RUN apt-get update && apt-get install -y netcat-openbsd && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements file and install dependencies
 COPY requirements.txt .
@@ -17,5 +20,11 @@ EXPOSE 8000
 # Set environment variables (optional)
 ENV PYTHONUNBUFFERED=1
 
-# Command to run the application (update as needed)
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Copy the wait scripts and others
+COPY wait_for_db.sh seed.sh entrypoint.sh ./
+
+# Make them executable
+RUN chmod +x wait_for_db.sh seed.sh entrypoint.sh
+
+# Command to wait for DB, then start Django server
+CMD ["./entrypoint.sh"]

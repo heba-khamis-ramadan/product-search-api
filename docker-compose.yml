@@ -1,26 +1,22 @@
 
 services:
-  api:
-    build: .
-    container_name: productapi
-    ports:
-      - "8000:8000"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    depends_on:
-      - db
-
   db:
     image: postgres:15
-    container_name: productdb
+    container_name: db
     environment:
-      - POSTGRES_USER=productuser
-      - POSTGRES_PASSWORD=productpass
-      - POSTGRES_DB=productdb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_DB=product_search_api
     ports:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.5.1
@@ -32,6 +28,24 @@ services:
       - "9200:9200"
     volumes:
       - es_data:/usr/share/elasticsearch/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  
+  api:
+    build: .
+    container_name: api
+    ports:
+      - "8000:8000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - db
+      - elasticsearch
+    restart: always
 
 
 volumes:

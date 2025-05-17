@@ -46,7 +46,7 @@ INSTALLED_APPS = [
 
 ELASTICSEARCH_DSL = {
     'default': {
-        'hosts': 'http://elasticsearch:9200'
+        'hosts': 'elasticsearch:9200'
     },
 }
 
@@ -77,6 +77,9 @@ TEMPLATES = [
     },
 ]
 
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 WSGI_APPLICATION = 'productapi.wsgi.application'
 
 
@@ -89,7 +92,7 @@ DATABASES = {
         'NAME': 'product_search_api',
         'USER': 'postgres',
         'PASSWORD': '123456',
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }
