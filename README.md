@@ -1,5 +1,5 @@
 # 🛒 Product Search API
-
+![Product Search API](https://res.cloudinary.com/dncl2sqt9/image/upload/v1748607078/Projects_Cover_2_pi8qkf.png)
 A high-performance product search API built with **Django**, **PostgreSQL**, and **Elasticsearch**, supporting:
 
 - Partial keyword matching
